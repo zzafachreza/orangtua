@@ -16,19 +16,24 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import { MyButton } from '../../components';
 
-export default function Task({ navigation }) {
+export default function Laporan({ navigation }) {
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
     const isFocused = useIsFocused();
+    const [user, setUser] = useState({});
+    const [open, setOpen] = useState(false);
     useEffect(() => {
 
         if (isFocused) {
             getData('user').then(uu => {
-                axios.post(apiURL + 'laporan', {
+                axios.post(apiURL + 'laporan_avg', {
                     fid_user: uu.id
                 }).then(res => {
+                    setUser(uu)
+                    setOpen(true)
                     console.log(res.data);
                     setData(res.data);
+
                 })
             })
         }
@@ -44,7 +49,7 @@ export default function Task({ navigation }) {
                     marginBottom: 10,
                     position: 'relative',
                     borderColor: colors.white,
-                    // height: 130,
+                    height: 130,
                     borderRadius: 10,
                     backgroundColor: item.status == 'OPEN' ? colors.danger : colors.success,
                     paddingLeft: 10,
@@ -67,11 +72,6 @@ export default function Task({ navigation }) {
                                     fontSize: DimensionThisPhone / 15,
                                     fontFamily: fonts.secondary[800]
                                 }}>{moment(item.tanggal).format('dddd, DD MMMM YYYY')}</Text>
-                                <Text style={{
-                                    color: colors.danger,
-                                    fontSize: DimensionThisPhone / 15,
-                                    fontFamily: fonts.secondary[600]
-                                }}>{item.kecepatan} Km/Jam</Text>
 
                             </View>
                             <View style={{
@@ -187,17 +187,80 @@ export default function Task({ navigation }) {
                     color: colors.white,
                     fontSize: DimensionThisPhone / 14,
                     fontFamily: fonts.secondary[600]
-                }}>Riwayat</Text>
+                }}>Laporan</Text>
             </ImageBackground>
 
 
 
 
-            <View style={{
-                paddingHorizontal: 20
+            {open && <View style={{
+                flex: 1,
+                padding: 20,
             }}>
-                <FlatList data={data} renderItem={__renderItem} />
-            </View>
+                <TouchableNativeFeedback onPress={() => {
+                    let waLink = `https://wa.me/${user.ortu}?text=Rata-rata kecepatan minggu ini adalah *${data.minggu} Km/Jam*`;
+                    Linking.openURL(waLink);
+                    console.log(waLink)
+                }}>
+                    <View style={{
+                        marginVertical: 10,
+                        flex: 1,
+                        borderRadius: 20,
+                        padding: 5,
+                        backgroundColor: colors.primary,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Icon type='ionicon' name='pie-chart-outline' size={80} color={colors.white} />
+                        <Text style={{
+                            marginTop: 10,
+                            fontFamily: fonts.secondary[800],
+                            color: colors.white,
+                            fontSize: 35,
+                            textAlign: 'center'
+                        }}>{data.minggu} Km/Jam</Text>
+                        <Text style={{
+                            marginTop: 10,
+                            fontFamily: fonts.secondary[600],
+                            color: colors.white,
+                            fontSize: 25,
+                            textAlign: 'center'
+                        }}>Laporan Rata-rata Kecepatan Per-minggu</Text>
+                    </View>
+                </TouchableNativeFeedback>
+
+                <TouchableNativeFeedback onPress={() => {
+                    let waLink = `https://wa.me/${user.ortu}?text=Rata-rata kecepatan bulan ini adalah *${data.bulan} Km/Jam*`;
+                    Linking.openURL(waLink);
+                    console.log(waLink)
+                }}>
+                    <View style={{
+                        flex: 1,
+                        marginVertical: 10,
+                        borderRadius: 20,
+                        padding: 5,
+                        backgroundColor: colors.secondary,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Icon type='ionicon' name='bar-chart-outline' size={100} color={colors.primary} />
+                        <Text style={{
+                            marginTop: 10,
+                            fontFamily: fonts.secondary[800],
+                            color: colors.primary,
+                            fontSize: 35,
+                            textAlign: 'center'
+                        }}>{data.bulan} Km/Jam</Text>
+                        <Text style={{
+                            marginTop: 10,
+                            fontFamily: fonts.secondary[600],
+                            color: colors.primary,
+                            fontSize: 25,
+                            textAlign: 'center'
+                        }}>Laporan Rata-rata Kecepatan Per-bulan</Text>
+                    </View>
+                </TouchableNativeFeedback>
+            </View>}
 
 
         </SafeAreaView>

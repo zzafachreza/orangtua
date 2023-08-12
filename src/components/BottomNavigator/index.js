@@ -63,9 +63,9 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
         } else if (label === 'Account') {
           iconName = 'person-outline';
           Newlabel = 'Profile';
-        } else if (label === 'Search') {
-          iconName = 'search-outline';
-          Newlabel = 'Search';
+        } else if (label === 'Laporan') {
+          iconName = 'alarm-outline';
+          Newlabel = 'alarm';
         } else if (label === 'History') {
           iconName = 'file-tray-stacked-outline';
           Newlabel = 'History';

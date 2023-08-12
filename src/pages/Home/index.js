@@ -241,6 +241,13 @@ export default function Home({ navigation, route }) {
 
         <TouchableOpacity onPress={() => {
           // navigation.navigate('Account')
+          PlaySuara();
+          PushNotification.localNotification({
+            /* Android Only Properties */
+            channelId: 'teloletID', // (required) channelId, if the channel doesn't exist, notification will not trigger.
+            title: 'Telolet', // (optional)
+            message: 'Ayo Segera berangkat !', // (required)
+          });
           PlaySuara()
         }} style={{
           position: 'relative',

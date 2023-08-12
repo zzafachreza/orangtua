@@ -109,8 +109,49 @@ export default function AccountEdit({ navigation, route }) {
                 <MyGap jarak={10} />
 
 
-                <MyInput label="No. Handphone" iconname="logo-whatsapp" keyboardType="phone-pad" value={kirim.telepon} onChangeText={x => setKirim({ ...kirim, telepon: x })} />
                 <MyGap jarak={10} />
+                <MyInput
+                    placeholder="Masukan telepon"
+                    label="Telepon"
+                    iconname="call"
+                    keyboardType="phone-pad"
+                    value={kirim.telepon}
+                    onChangeText={value =>
+                        setKirim({
+                            ...kirim,
+                            telepon: value,
+                        })
+                    }
+                />
+                <MyGap jarak={10} />
+                <MyInput
+                    placeholder="Masukan usia"
+                    keyboardType='number-pad'
+                    label="Usia"
+                    iconname="options"
+                    value={kirim.usia}
+                    onChangeText={value =>
+                        setKirim({
+                            ...kirim,
+                            usia: value,
+                        })
+                    }
+                />
+                <MyGap jarak={10} />
+                <MyInput
+                    placeholder="Masukan Nomor WA Orang tua"
+                    label="Nomor WA Orang tua (cth. 62813 . . )"
+                    iconname="logo-whatsapp"
+                    keyboardType='number-pad'
+                    value={kirim.ortu}
+                    onChangeText={value =>
+                        setKirim({
+                            ...kirim,
+                            ortu: value,
+                        })
+                    }
+                />
+
 
                 <MyInput label="Alamat" iconname="location" value={kirim.alamat} onChangeText={x => setKirim({ ...kirim, alamat: x })} />
                 <MyGap jarak={10} />

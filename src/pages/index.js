@@ -7,7 +7,7 @@ import Account from './Account';
 import TaskDetail from './TaskDetail';
 import Register from './Register';
 import AccountEdit from './AccountEdit';
-
+import Laporan from './Laporan';
 
 
 
@@ -21,6 +21,7 @@ export {
   Account,
   TaskDetail,
   Register,
+  Laporan,
   AccountEdit
 
 };

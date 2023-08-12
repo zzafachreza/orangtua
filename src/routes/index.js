@@ -11,6 +11,7 @@ import {
   TaskDetail,
   Register,
   AccountEdit,
+  Laporan,
 } from '../pages';
 import { colors } from '../utils';
 import { Icon } from 'react-native-elements';
@@ -28,6 +29,7 @@ const MainApp = () => {
     <Tab.Navigator tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="History" component={Task} />
+      <Tab.Screen name="Laporan" component={Laporan} />
       <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
