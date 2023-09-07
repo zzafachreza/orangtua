@@ -59,11 +59,14 @@ export default function Splash({ navigation }) {
         <ActivityIndicator color={colors.white} size="large" />
       </View>
       <Animated.Text style={{
-        fontFamily: fonts.secondary[800],
-        fontSize: DimensionThisPhone / 12,
-        color: colors.white,
+        fontFamily: fonts.secondary[600],
+        fontSize: DimensionThisPhone / 9,
+        fontStyle: 'italic',
+        color: colors.black,
+        textAlign: 'center',
         bottom: TextAnimation
-      }}>{MYAPP}</Animated.Text>
+      }}>Selamat{'\n'}Sampai Tujuan</Animated.Text>
+
 
     </ImageBackground>
   );
@@ -72,7 +75,7 @@ export default function Splash({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
     justifyContent: 'center',
     alignItems: 'center'
   },
