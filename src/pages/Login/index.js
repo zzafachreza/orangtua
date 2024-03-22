@@ -103,11 +103,7 @@ export default function Login({ navigation }) {
               margin: 10,
             }}
           />
-          <Text style={{
-            fontStyle: 'italic',
-            fontFamily: fonts.secondary[600],
-            fontSize: DimensionThisPhone / 15
-          }}>Selamat Sampai Tujuan</Text>
+
         </View>
 
         <View style={styles.center}>
@@ -169,13 +165,7 @@ export default function Login({ navigation }) {
 
       </ScrollView>
 
-      <Text style={{
-        marginVertical: 10,
-        backgroundColor: colors.background,
-        fontFamily: fonts.secondary[600],
-        fontSize: DimensionThisPhone / 20,
-        textAlign: 'center'
-      }}>Safety Transport For Indonesia's Future</Text>
+
     </>
   );
 }

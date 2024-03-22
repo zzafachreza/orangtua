@@ -12,6 +12,13 @@ import {
   Register,
   AccountEdit,
   Laporan,
+  Informasi,
+  InformasiDetail,
+  LokasiDetail,
+  Lokasi,
+  Satuan,
+  SatuanDetail,
+  Notifikasi,
 } from '../pages';
 import { colors } from '../utils';
 import { Icon } from 'react-native-elements';
@@ -28,8 +35,6 @@ const MainApp = () => {
   return (
     <Tab.Navigator tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="History" component={Task} />
-      <Tab.Screen name="Laporan" component={Laporan} />
       <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
@@ -101,6 +106,67 @@ export default function Router() {
         }}
       />
 
+      <Stack.Screen
+        name="Notifikasi"
+        component={Notifikasi}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+      <Stack.Screen
+        name="Informasi"
+        component={Informasi}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+      <Stack.Screen
+        name="InformasiDetail"
+        component={InformasiDetail}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+      <Stack.Screen
+        name="Lokasi"
+        component={Lokasi}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+      <Stack.Screen
+        name="LokasiDetail"
+        component={LokasiDetail}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+      <Stack.Screen
+        name="Satuan"
+        component={Satuan}
+        options={{
+          headerShown: false,
+
+        }}
+      />
+
+      <Stack.Screen
+        name="SatuanDetail"
+        component={SatuanDetail}
+        options={{
+          headerShown: false,
+
+        }}
+      />
 
     </Stack.Navigator>
   );

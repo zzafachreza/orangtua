@@ -38,7 +38,7 @@ export default function MyCarouser() {
       source={{ uri: item.image }}
       style={{
         resizeMode: 'cover',
-        height: 180,
+        height: 150,
         width: 300,
         borderRadius: 10,
       }}

@@ -41,7 +41,7 @@ export default function MyPicker({
       </View>
 
       <View style={{
-        backgroundColor: colors.zavalabs,
+        backgroundColor: colors.background_input,
         borderRadius: 10,
         marginTop: 5,
         fontFamily: fonts.secondary[600],

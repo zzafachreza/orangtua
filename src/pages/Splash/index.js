@@ -55,17 +55,17 @@ export default function Splash({ navigation }) {
           resizeMode: 'contain'
         }
       } />
-      <View style={styles.loading}>
-        <ActivityIndicator color={colors.white} size="large" />
-      </View>
       <Animated.Text style={{
-        fontFamily: fonts.secondary[600],
-        fontSize: DimensionThisPhone / 9,
-        fontStyle: 'italic',
+        fontFamily: fonts.secondary[800],
+        fontSize: DimensionThisPhone / 12,
         color: colors.black,
         textAlign: 'center',
         bottom: TextAnimation
-      }}>Selamat{'\n'}Sampai Tujuan</Animated.Text>
+      }}>PUTRA YUDHA SYSTEM</Animated.Text>
+
+      <View style={styles.loading}>
+        <ActivityIndicator color={colors.primary} size="large" />
+      </View>
 
 
     </ImageBackground>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
 
   loading: {
-    marginTop: 30,
-    marginBottom: 10,
+    // marginTop: 30,
+    // marginBottom: 10,
   }
 });

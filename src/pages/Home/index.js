@@ -17,7 +17,7 @@ import PushNotification, { Importance } from 'react-native-push-notification';
 import GetLocation from 'react-native-get-location';
 import { getDistance, convertDistance } from 'geolib';
 import { showMessage } from 'react-native-flash-message';
-
+import LinearGradient from 'react-native-linear-gradient';
 import SoundPlayer from 'react-native-sound-player'
 export default function Home({ navigation, route }) {
 
@@ -37,7 +37,7 @@ export default function Home({ navigation, route }) {
   const PlaySuara = () => {
     try {
       // play the file tone.mp3
-      SoundPlayer.playSoundFile('telolet', 'mp3')
+      SoundPlayer.playSoundFile('alarm', 'mp3')
       // or play from url
 
     } catch (e) {
@@ -46,6 +46,7 @@ export default function Home({ navigation, route }) {
   }
 
   useEffect(() => {
+
 
 
 
@@ -61,41 +62,30 @@ export default function Home({ navigation, route }) {
     getData('user').then(uu => {
       setUser(uu);
 
-      GetLocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 15000,
-      })
-        .then(location => {
-          console.log(location);
-          console.log('kirim', {
-            fid_user: uu.id,
-            lat_awal: location.latitude,
-            long_awal: location.longitude,
-          })
+      axios.post(apiURL + 'get_token', {
+        id: uu.id
+      }).then(res => {
 
+        getData('token').then(token => {
+          console.log(token.token);
+          // alert(token.token);
 
-          setKirim({
-            ...kirim,
-            fid_user: uu.id,
-            lat_awal: location.latitude,
-            long_awal: location.longitude,
-          });
-
-          // const ProsesJarak = getDistance(
-          //   { latitude: res.user_latitude, longitude: res.user_longitude },
-          //   { latitude: location.latitude, longitude: location.longitude },
-
-          //   1,
-          // );
-          // console.log('jarak',ProsesJarak)
-
-
+          if (token.token !== res.data) {
+            console.log('update TOKEN');
+            axios.post(apiURL + 'update_token', {
+              id: uu.id,
+              token: token.token
+            }).then(resp => {
+              console.log('token berhasil diperbaharui', resp.data)
+            })
+          } else {
+            console.log('token terbaru')
+          }
         })
-        .catch(error => {
 
-          const { code, message } = error;
-          console.warn(code, message);
-        });
+      })
+
+
     })
 
 
@@ -169,39 +159,42 @@ export default function Home({ navigation, route }) {
     )
   }
 
-  const MyList = ({ label, value }) => {
+  const MyList = ({ label = 'Profile Kantor', img = require('../../assets/A1.png'), onPress }) => {
     return (
-      <View
-        style={{
-          // marginVertical: 1,
-
-          flexDirection: 'row',
-          alignItems: 'center'
+      <TouchableWithoutFeedback onPress={onPress}>
+        <LinearGradient colors={[colors.secondary, colors.secondary]} style={{
+          flex: 1,
+          marginHorizontal: 10,
+          borderRadius: 10,
+          backgroundColor: colors.primary,
+          borderColor: colors.warning,
+          borderWidth: 2,
+          overflow: 'hidden'
         }}>
-        <Text
-          style={{
-            flex: 0.2,
-            fontFamily: fonts.primary[400],
-            color: colors.white,
+          <View style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 10,
           }}>
-          {label}
-        </Text>
-        <Text
-          style={{
-            marginHorizontal: 5,
-            fontFamily: fonts.primary[400],
-            color: colors.white,
-          }}>:</Text>
-        <Text
-          style={{
-            flex: 1,
-            fontFamily: fonts.primary[600],
-            color: colors.white,
+            <Image source={img} style={{
+              width: '70%',
+              height: 110,
+              resizeMode: 'contain'
+            }} />
+          </View>
+          <View style={{
+            height: 40,
+            backgroundColor: colors.tertiary,
+            justifyContent: 'center',
+            alignItems: 'center'
           }}>
-
-          {value}
-        </Text>
-      </View>
+            <Text style={{
+              fontFamily: fonts.secondary[600],
+              color: colors.white
+            }}>{label}</Text>
+          </View>
+        </LinearGradient>
+      </TouchableWithoutFeedback>
     )
   }
 
@@ -220,23 +213,20 @@ export default function Home({ navigation, route }) {
       }}>
         <View style={{
           flex: 1,
-        }}>
-          <MyList label="Nama" value={user.nama_lengkap} />
-          <MyList label="Alamat" value={user.alamat} />
-          <TouchableOpacity onPress={() => {
-            Linking.openURL('https://www.google.com/maps/place/' + user.alamat)
-          }}>
-            <Image source={require('../../assets/map.png')} style={{
-              width: 200,
-              height: 100,
-              borderRadius: 10,
-            }}
+          padding: 10,
+        }}
+        >
 
-            />
-          </TouchableOpacity>
-          <MyList label="Usia" value={user.usia + ' Tahun'} />
-
-          <MyList label="No. Ortu" value={user.ortu} />
+          <Text style={{
+            fontFamily: fonts.secondary[400],
+            fontSize: DimensionThisPhone / 22,
+            color: colors.white,
+          }}>Selamat datang, {user.nama_lengkap}</Text>
+          <Text style={{
+            fontFamily: fonts.secondary[800],
+            fontSize: DimensionThisPhone / 15,
+            color: colors.white,
+          }}>{MYAPP}</Text>
         </View>
 
         <TouchableOpacity onPress={() => {
@@ -282,58 +272,27 @@ export default function Home({ navigation, route }) {
       {/* MAIN BODY */}
       <View style={{
         flex: 1,
-        padding: 10,
-        justifyContent: 'center'
+        padding: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
       }}>
-        <Text style={{
-          fontFamily: fonts.secondary[600],
-          fontSize: DimensionThisPhone / 14,
-          marginHorizontal: 20,
-          marginTop: 0,
-        }}>{moment().format('dddd, DD MMMM YYYY')}</Text>
-        <Text style={{
-          fontFamily: fonts.secondary[800],
-          fontSize: DimensionThisPhone / 8,
-          marginHorizontal: 20,
-          color: colors.tertiary
-        }}>{moment().format('HH:mm:ss')}</Text>
 
 
-        <TouchableOpacity onPress={() => {
-          Alert.alert(MYAPP, 'Apakah kamu sudah siap untuk berangkat ?', [
-            { text: 'TIDAK' },
-            {
-              text: 'SIAP BERANGKAT',
-              onPress: () => {
-                axios.post(apiURL + 'laporan_add', kirim).then(es => {
-                  console.log(es.data);
-                  showMessage({
-                    type: 'success',
-                    message: 'Selamat kamu sudah berangkat !'
-                  })
-
-                })
-              }
-
-            }
-          ])
-        }} style={{
-          padding: 10,
-          marginTop: 20,
-          backgroundColor: colors.primary,
-          marginHorizontal: 20,
-          borderRadius: 10,
-
+        <View style={{
+          flexDirection: 'row'
         }}>
-          <Text style={{
-            textAlign: 'center',
-            fontFamily: fonts.secondary[800],
-            fontSize: DimensionThisPhone / 8,
-            marginHorizontal: 20,
-            color: colors.white
-          }}>BERANGKAT</Text>
-        </TouchableOpacity>
 
+          <MyList label='Profil Kantor' onPress={() => navigation.navigate('Satuan')} img={require('../../assets/A1.png')} />
+          <MyList label='Notifkasi' onPress={() => navigation.navigate('Notifikasi')} img={require('../../assets/A2.png')} />
+        </View>
+        <View style={{
+          marginTop: 10,
+          flexDirection: 'row'
+        }}>
+
+          <MyList label='Lokasi' onPress={() => navigation.navigate('Lokasi')} img={require('../../assets/A3.png')} />
+          <MyList label='Informasi' onPress={() => navigation.navigate('Informasi')} img={require('../../assets/A4.png')} />
+        </View>
 
 
 

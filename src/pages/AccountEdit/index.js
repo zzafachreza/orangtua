@@ -42,12 +42,22 @@ export default function AccountEdit({ navigation, route }) {
         })
     }
 
+    const [satuan, setSatuan] = useState([]);
+
     useEffect(() => {
-        setKirim({
-            ...kirim,
-            newfoto_user: null
+        axios.post(apiURL + 'satuan').then(res => {
+            console.log(res.data);
+            setSatuan(res.data);
+
+            setKirim({
+                ...kirim,
+                newfoto_user: null,
+            })
         })
     }, [])
+
+
+
 
     return (
         <SafeAreaView style={{
@@ -99,79 +109,118 @@ export default function AccountEdit({ navigation, route }) {
                             uri: kirim.newfoto_user !== null ? kirim.newfoto_user : kirim.foto_user,
                         }} />
                     </TouchableOpacity>
+
+
+
                 </View>
 
+                <View style={{
+                    padding: 10,
+                }}>
 
-                <MyInput label="Username" iconname="at" value={kirim.username} onChangeText={x => setKirim({ ...kirim, username: x })} />
-                <MyGap jarak={10} />
+                    <MyInput
+                        placeholder="Masukan nama lengkap"
+                        label="Nama Lengkap"
+                        iconname="person"
+                        value={kirim.nama_lengkap}
+                        onChangeText={value =>
+                            setKirim({
+                                ...kirim,
+                                nama_lengkap: value,
+                            })
+                        }
+                    />
+                    <MyGap jarak={10} />
+                    <MyInput
+                        placeholder="Masukan username"
+                        label="Username"
+                        iconname="at"
+                        value={kirim.username}
+                        onChangeText={value =>
+                            setKirim({
+                                ...kirim,
+                                username: value,
+                            })
+                        }
+                    />
 
-                <MyInput label="Nama Pengguna" iconname="person" value={kirim.nama_lengkap} onChangeText={x => setKirim({ ...kirim, nama_lengkap: x })} />
-                <MyGap jarak={10} />
 
+                    <MyGap jarak={10} />
+                    <MyInput
+                        placeholder="Masukan email"
+                        label="Email"
+                        iconname="mail-outline"
+                        value={kirim.email}
+                        onChangeText={value =>
+                            setKirim({
+                                ...kirim,
+                                email: value,
+                            })
+                        }
+                    />
 
-                <MyGap jarak={10} />
-                <MyInput
-                    placeholder="Masukan telepon"
-                    label="Telepon"
-                    iconname="call"
-                    keyboardType="phone-pad"
-                    value={kirim.telepon}
-                    onChangeText={value =>
+                    <MyGap jarak={10} />
+                    <MyInput
+                        placeholder="Masukan nomor telepon"
+                        label="Nomor Telepon"
+                        iconname="call-outline"
+                        keyboardType="phone-pad"
+                        value={kirim.telepon}
+                        onChangeText={value =>
+                            setKirim({
+                                ...kirim,
+                                telepon: value,
+                            })
+                        }
+                    />
+                    <MyGap jarak={10} />
+                    <MyInput
+                        placeholder="Masukan NRP"
+
+                        label="NRP"
+                        iconname="card-outline"
+                        value={kirim.nrp}
+                        onChangeText={value =>
+                            setKirim({
+                                ...kirim,
+                                nrp: value,
+                            })
+                        }
+                    />
+                    <MyGap jarak={10} />
+                    <MyPicker label="Satuan" onValueChange={x => {
                         setKirim({
                             ...kirim,
-                            telepon: value,
+                            fid_satuan: x
                         })
-                    }
-                />
-                <MyGap jarak={10} />
-                <MyInput
-                    placeholder="Masukan usia"
-                    keyboardType='number-pad'
-                    label="Usia"
-                    iconname="options"
-                    value={kirim.usia}
-                    onChangeText={value =>
-                        setKirim({
-                            ...kirim,
-                            usia: value,
-                        })
-                    }
-                />
-                <MyGap jarak={10} />
-                <MyInput
-                    placeholder="Masukan Nomor WA Orang tua"
-                    label="Nomor WA Orang tua (cth. 62813 . . )"
-                    iconname="logo-whatsapp"
-                    keyboardType='number-pad'
-                    value={kirim.ortu}
-                    onChangeText={value =>
-                        setKirim({
-                            ...kirim,
-                            ortu: value,
-                        })
-                    }
-                />
+                    }} iconname="location-outline" data={satuan} />
+                    <MyGap jarak={10} />
+                    <MyInput
+                        placeholder="Masukan jabatan"
+                        label="Jabatan"
+                        iconname="ribbon-outline"
+                        value={kirim.jabatan}
+                        onChangeText={value =>
+                            setKirim({
+                                ...kirim,
+                                jabatan: value,
+                            })
+                        }
+                    />
 
 
-                <MyInput label="Alamat" iconname="location" value={kirim.alamat} onChangeText={x => setKirim({ ...kirim, alamat: x })} />
-                <MyGap jarak={10} />
 
-                {/* <MyPicker iconname="male-female" label="Jenis Kelamin" value={kirim.gender} onValueChange={x => {
-                    setKirim({
-                        ...kirim,
-                        gender: x
-                    })
-                }} data={[
-                    { label: 'Laki-laki', value: 'Laki-laki' },
-                    { label: 'Perempuan', value: 'Perempuan' },
-                ]} /> */}
-                <MyGap jarak={10} />
 
-                <MyInput label="Password" iconname="lock-closed" secureTextEntry={true} onChangeText={x => setKirim({ ...kirim, newpassword: x })} placeholder="Kosongkan jika tidak diubah" />
-                <MyGap jarak={20} />
-                {loading && <ActivityIndicator color={colors.primary} size="large" />}
+                    <MyGap jarak={10} />
 
-                {!loading && <MyButton warna={colors.primary} onPress={sendServer} title="Simpan Perubahan" Icons="download-outline" />}
+                    <MyInput label="Password" iconname="lock-closed" secureTextEntry={true} onChangeText={x => setKirim({ ...kirim, newpassword: x })} placeholder="Kosongkan jika tidak diubah" />
+                    <MyGap jarak={20} />
+                    {loading && <ActivityIndicator color={colors.primary} size="large" />}
+
+                    {!loading && <MyButton warna={colors.primary} onPress={sendServer} title="Simpan Perubahan" Icons="download-outline" />}
+
+                </View>
+
             </ScrollView>
         </SafeAreaView >
     )

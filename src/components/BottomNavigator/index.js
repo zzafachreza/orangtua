@@ -21,7 +21,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 
   return (
     <View style={{
-      backgroundColor: colors.secondary, flexDirection: 'row', borderTopLeftRadius: 50,
+      backgroundColor: colors.primary, flexDirection: 'row', borderTopLeftRadius: 50,
 
     }}>
       {state.routes.map((route, index) => {
@@ -102,7 +102,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
                   name={isFocused ? iconName.replace('-outline', '') : iconName}
                   type="ionicon"
                   size={DimensionThisPhone / 15}
-                  color={isFocused ? colors.primary : colors.primary}
+                  color={isFocused ? colors.white : colors.white}
                 />
               </View>
             </View>

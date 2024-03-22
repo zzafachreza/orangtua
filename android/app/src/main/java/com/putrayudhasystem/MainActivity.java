@@ -1,4 +1,4 @@
-package com.orangtua;
+package com.putrayudhasystem;
 
 import com.facebook.react.ReactActivity;
 

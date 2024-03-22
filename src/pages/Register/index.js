@@ -52,14 +52,16 @@ export default function Register({ navigation }) {
 
     const [data, setData] = useState({
         api_token: api_token,
+        nama_lengkap: '',
         username: '',
+        email: '',
+        telepon: '',
+        nrp: '',
+        fid_satuan: '',
+        jabatan: '',
         password: '',
         repassword: '',
-        telepon: '',
-        nama_lengkap: '',
-        alamat: '',
-        usia: '',
-        ortu: '',
+
     });
 
     const simpan = () => {
@@ -116,7 +118,18 @@ export default function Register({ navigation }) {
         }
     };
 
-    const [desa, setDesa] = useState([]);
+    const [satuan, setSatuan] = useState([]);
+
+    useEffect(() => {
+        axios.post(apiURL + 'satuan').then(res => {
+            console.log(res.data);
+            setSatuan(res.data);
+            setData({
+                ...data,
+                fid_satuan: res.data[0].value
+            })
+        })
+    }, [])
 
 
 
@@ -143,21 +156,6 @@ export default function Register({ navigation }) {
 
                     }}>Daftar Pengguna</Text>
                 </View>
-
-
-                <MyInput
-                    placeholder="Masukan username"
-                    label="Username"
-                    iconname="at"
-                    value={data.username}
-                    onChangeText={value =>
-                        setData({
-                            ...data,
-                            username: value,
-                        })
-                    }
-                />
-                <MyGap jarak={10} />
                 <MyInput
                     placeholder="Masukan nama lengkap"
                     label="Nama Lengkap"
@@ -170,13 +168,40 @@ export default function Register({ navigation }) {
                         })
                     }
                 />
+                <MyGap jarak={10} />
+                <MyInput
+                    placeholder="Masukan username"
+                    label="Username"
+                    iconname="at"
+                    value={data.username}
+                    onChangeText={value =>
+                        setData({
+                            ...data,
+                            username: value,
+                        })
+                    }
+                />
 
 
                 <MyGap jarak={10} />
                 <MyInput
-                    placeholder="Masukan telepon"
-                    label="Telepon"
-                    iconname="call"
+                    placeholder="Masukan email"
+                    label="Email"
+                    iconname="mail-outline"
+                    value={data.email}
+                    onChangeText={value =>
+                        setData({
+                            ...data,
+                            email: value,
+                        })
+                    }
+                />
+
+                <MyGap jarak={10} />
+                <MyInput
+                    placeholder="Masukan nomor telepon"
+                    label="Nomor Telepon"
+                    iconname="call-outline"
                     keyboardType="phone-pad"
                     value={data.telepon}
                     onChangeText={value =>
@@ -188,42 +213,35 @@ export default function Register({ navigation }) {
                 />
                 <MyGap jarak={10} />
                 <MyInput
-                    placeholder="Masukan usia"
-                    keyboardType='number-pad'
-                    label="Usia"
-                    iconname="options"
-                    value={data.usia}
+                    placeholder="Masukan NRP"
+
+                    label="NRP"
+                    iconname="card-outline"
+                    value={data.nrp}
                     onChangeText={value =>
                         setData({
                             ...data,
-                            usia: value,
+                            nrp: value,
                         })
                     }
                 />
                 <MyGap jarak={10} />
-                <MyInput
-                    placeholder="Masukan Nomor WA Orang tua"
-                    label="Nomor WA Orang tua (cth. 62813 . . )"
-                    iconname="logo-whatsapp"
-                    keyboardType='number-pad'
-                    value={data.ortu}
-                    onChangeText={value =>
-                        setData({
-                            ...data,
-                            ortu: value,
-                        })
-                    }
-                />
+                <MyPicker label="Satuan" onValueChange={x => {
+                    setData({
+                        ...data,
+                        fid_satuan: x
+                    })
+                }} iconname="location-outline" data={satuan} />
                 <MyGap jarak={10} />
                 <MyInput
-                    placeholder="Masukan alamat"
-                    label="Alamat"
-                    iconname="location"
-                    value={data.alamat}
+                    placeholder="Masukan jabatan"
+                    label="Jabatan"
+                    iconname="ribbon-outline"
+                    value={data.jabatan}
                     onChangeText={value =>
                         setData({
                             ...data,
-                            alamat: value,
+                            jabatan: value,
                         })
                     }
                 />

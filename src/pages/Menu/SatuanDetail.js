@@ -1,0 +1,75 @@
+import { FlatList, Image, Linking, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { DimensionThisPhone, MyDimensi, colors, fonts, windowHeight, windowWidth } from '../../utils'
+import { MyButton, MyGap, MyInput, MyPicker } from '../../components'
+import axios from 'axios';
+import { apiURL, webURL } from '../../utils/localStorage'
+import { showMessage } from 'react-native-flash-message'
+import RenderHtml from 'react-native-render-html';
+import moment from 'moment'
+import YoutubePlayer from "react-native-youtube-iframe";
+export default function SatuanDetail({ navigation, route }) {
+
+    const item = route.params;
+    return (
+        <SafeAreaView style={{
+            flex: 1,
+            backgroundColor: colors.white,
+            // padding: 10,
+        }}>
+
+            <ScrollView showsVerticalScrollIndicator={false} style={{
+            }}>
+                <Image source={{
+                    uri: item.image
+                }} style={{
+                    // flex: 1,
+                    width: '100%',
+                    height: 250,
+                }} />
+                <View style={{
+                    flexDirection: 'row',
+                    padding: 10,
+                    borderBottomWidth: 1,
+                    borderBottomColor: colors.primary,
+                    marginBottom: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+
+                }}>
+
+
+                    <Text style={{
+                        flex: 1,
+                        fontFamily: fonts.secondary[800],
+                        fontSize: DimensionThisPhone / 15,
+                        color: colors.black,
+                        textAlign: 'center'
+                    }}>{item.nama_kantor}</Text>
+                </View>
+
+                <View style={{
+                    padding: 10
+                }}>
+
+                    <RenderHtml
+                        contentWidth={windowWidth}
+                        source={{
+                            html: item.keterangan
+                        }}
+                    />
+
+                    <YoutubePlayer
+                        height={300}
+                        play={false}
+                        videoId={item.link_youtube}
+                    />
+                </View>
+
+            </ScrollView>
+        </SafeAreaView>
+    )
+}
+
+const styles = StyleSheet.create({})
